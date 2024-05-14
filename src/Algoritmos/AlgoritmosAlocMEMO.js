@@ -1,12 +1,12 @@
-const Arquivo = require('Arquivo');
-const Memoria = require('Memoria');
+const Arquivo = require('../Util/Arquivo');
+const Memoria = require('../Util/Memoria');
 const Processo = require('../Util/Processo');
-const ProcessoN = require('../Util/Processo');
+const ProcessoN = require('../Util/ProcessoN');
 
 
 
-const txtMemoria = '../../entrada/entrada-memoria.txt';
-const txtProcessos = '../../entrada/entrada-processos.txt';
+const txtMemoria = 'C:\\Users\\A368324\\Desktop\\gerenciamentodememoria\\entrada\\entrada-memoria.txt';
+const txtProcessos = 'C:\\Users\\A368324\\Desktop\\gerenciamentodememoria\\entrada\\entrada-processos.txt';
 
 const a = new Arquivo();
 let MemoriaLIDA = [];
