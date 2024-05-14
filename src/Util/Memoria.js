@@ -50,3 +50,6 @@ class Memoria {
 }
 
 module.exports = Memoria; // Exporta a classe Memoria para uso externo
+
+/*Este código define uma classe Memoria com construtor e métodos para manipular atributos como o ID do processo, estado, 
+início e tamanho da memória, além de um método toString para representar o objeto como uma string formatada. */

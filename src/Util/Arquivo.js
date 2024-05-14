@@ -72,3 +72,6 @@ class Arquivo {
 }
 
 module.exports = Arquivo; // Exporta a classe Arquivo para uso externo
+
+/*Este código parece ser uma parte de uma classe ou objeto chamado Arquivo, 
+onde a função arquivoSaida é responsável por escrever um texto em um arquivo de saída específico associado a um algoritmo. */
