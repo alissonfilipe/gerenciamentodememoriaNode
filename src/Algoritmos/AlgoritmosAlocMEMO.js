@@ -151,45 +151,47 @@ function BestFIT(Memoria, Processos) {
 
 
 function WorstFIT(Memoria, Processos) {
-    let key = false;
-    let tamanhoMV = -1;
-    let auxN = new ProcessoN();
-    let MemoriaV = [];
-    let auxMV = {};
+    let key = false; // Variável de controle para determinar se houve alocação para um processo
+    let tamanhoMV = -1; // Inicializa tamanhoMV como -1
+    let auxN = new ProcessoN(); // Cria um objeto ProcessoN para armazenar processos não alocados
+    let MemoriaV = []; // Array para armazenar as memórias candidatas para alocação
+    let auxMV = {}; // Objeto auxiliar para armazenar informações das memórias candidatas
 
-    for (let i = 0; i < Processos.length; i++) {
-        for (let j = 0; j < Memoria.length; j++) {
+    for (let i = 0; i < Processos.length; i++) { // Loop sobre cada processo
+        for (let j = 0; j < Memoria.length; j++) { // Loop sobre cada bloco de memória
+            // Verifica se o bloco de memória está livre ('H'), se é grande o suficiente e se o processo não está alocado
             if (Memoria[j].getEstado() === 'H' && Processos[i].getComputacao() <= Math.abs(Memoria[j].getTamanho()) && Processos[i].getAlocado() === 0) {
-                tamanhoMV = Math.abs(Memoria[j].getTamanho()) - Processos[i].getComputacao();
-                auxMV = {
-                    idP: Processos[i].getId(),
-                    idm: j,
-                    tamanho: tamanhoMV
+                tamanhoMV = Math.abs(Memoria[j].getTamanho()) - Processos[i].getComputacao(); // Calcula o espaço restante no bloco de memória após a alocação
+                auxMV = { // Cria um objeto auxiliar com informações sobre a alocação
+                    idP: Processos[i].getId(), // ID do processo
+                    idm: j, // Índice do bloco de memória
+                    tamanho: tamanhoMV // Espaço restante no bloco de memória
                 };
-                MemoriaV.push(auxMV);
-                key = true;
+                MemoriaV.push(auxMV); // Adiciona o objeto auxiliar ao array MemoriaV de memórias candidatas
+                key = true; // Define key como true para indicar que houve alocação
             }
         }
 
-        if (Processos[i].getAlocado() === 0 && key === true) {
-            auxMV = MemoriaV.reduce((max, p) => p.tamanho > max.tamanho ? p : max, MemoriaV[0]);
-            Processos[i].setAlocado(1);
-            Memoria[auxMV.idm].setIdProcesso(auxMV.idP);
-            Memoria[auxMV.idm].setEstado('P');
-            MemoriaV = [];
-            key = false;
+        if (Processos[i].getAlocado() === 0 && key === true) { // Se o processo não foi alocado e houve alocação para ele
+            auxMV = MemoriaV.reduce((max, p) => p.tamanho > max.tamanho ? p : max, MemoriaV[0]); // Seleciona a pior memória candidata com o maior espaço restante
+            Processos[i].setAlocado(1); // Define o processo como alocado
+            Memoria[auxMV.idm].setIdProcesso(auxMV.idP); // Define o ID do processo associado ao bloco de memória
+            Memoria[auxMV.idm].setEstado('P'); // Define o estado do bloco de memória como 'P' (processo alocado)
+            MemoriaV = []; // Limpa o array MemoriaV para a próxima iteração
+            key = false; // Reseta key para false
         }
     }
 
-    for (let p of Processos) {
-        if (p.getAlocado() === 0) {
-            auxN = new ProcessoN(p.getId(), p.getComputacao());
-            ProcessosNALOCADOS.push(auxN);
+    for (let p of Processos) { // Loop para verificar processos não alocados
+        if (p.getAlocado() === 0) { // Se o processo não estiver alocado
+            auxN = new ProcessoN(p.getId(), p.getComputacao()); // Cria um novo objeto ProcessoN com o ID e o tamanho do processo não alocado
+            ProcessosNALOCADOS.push(auxN); // Adiciona o processo não alocado à lista de processos não alocados
         }
     }
 
-    escreverArquivo("WORST-FIT");
+    escreverArquivo("WORST-FIT"); // Chama a função escreverArquivo com o nome "WORST-FIT"
 }
+
 
 function escreverArquivo(algoritmo) {
     a.arquivoSaida(`Algoritmo ${algoritmo}\r\n`, algoritmo);
